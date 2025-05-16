@@ -1,0 +1,204 @@
+import 'package:bytes/login.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:http/http.dart' as http show post;
+
+
+void main()
+{
+  runApp(MaterialApp(home: register(),));
+}
+
+class register extends StatefulWidget {
+  const register({super.key});
+
+  @override
+  State<register> createState() => _registerState();
+}
+
+class _registerState extends State<register>
+{
+  void insert()async
+  {
+    await http.post
+      (
+        Uri.parse
+          ("http://localhost:8080/bytes/registration.php"),
+      body: {
+        "name":name.text.toString(),
+        "email": email.text.toString(),
+        "mobile":mobile.text.toString(),
+        "password":password.text.toString(),
+      }
+      );
+
+  }
+
+  TextEditingController name = TextEditingController();
+  TextEditingController email = TextEditingController();
+  TextEditingController mobile = TextEditingController();
+  TextEditingController password = TextEditingController();
+
+  final _formkey = GlobalKey<FormState>();
+
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold
+      (
+        body: Center
+          (
+            child: Form(
+              key: _formkey,
+              child: Column
+                (
+                  children:
+                  [
+                    SizedBox(height: 40,),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 10,right: 10),
+                      child: Container(
+
+                        decoration: BoxDecoration
+                          
+                          (
+                            border: Border.all(color: Colors.blue,),borderRadius: BorderRadius.circular(40),
+
+                          ),
+                       // color: Colors.amberAccent.shade100,
+                        child: Column(
+                        children: [
+              
+                      TextFormField
+                        (
+                          controller: name,
+                          decoration: InputDecoration
+                            (
+                              border: OutlineInputBorder(),
+                              hintText: "Enter your Name",
+                            ),
+
+              
+                        ),
+                      SizedBox(height: 12,),
+                      TextFormField
+                        (
+                        controller:email ,
+                        decoration: InputDecoration
+                          (
+                          border: OutlineInputBorder(),
+                          hintText: "Enter your Email",
+                        ),
+
+                      ),
+                          SizedBox(height: 12,),
+                      TextFormField
+                        (
+                        controller:mobile ,
+                        decoration: InputDecoration
+                          (
+                          border: OutlineInputBorder(),
+                          hintText: "Enter your Mobile No",
+                        ),
+
+              
+                         ),
+                          SizedBox(height: 12,),
+              
+                          TextFormField
+                          (
+                      controller:password ,
+                      decoration: InputDecoration
+                        (
+                        border: OutlineInputBorder(),
+                        hintText: "Enter your Password",
+                          ),
+
+              
+                                      ),
+                      ]
+                        ),
+                      ),
+                    ),
+                    SizedBox(height: 30,),
+              
+                    Container(
+                      height: 50,
+                      width: 200,
+                      decoration: BoxDecoration
+                        (
+                          color : Colors.blue,
+                          border: Border.all(color: Colors.black, style: BorderStyle.solid,width: 5)
+                        ),
+                      //color: Colors.red.shade100,
+                      child: Column(
+                        children: [
+                          MaterialButton
+                            (
+              
+              
+                              onPressed: ()
+                              {
+                                if(_formkey.currentState!.validate())
+                                  {
+
+                                    insert();
+
+                                  }
+
+                              }, child: Text("Sign Up"),
+                              color: Colors.amberAccent,
+                              splashColor: Colors.blue,
+                              highlightColor: Colors.white,
+                              textColor: Colors.black,
+                              hoverColor: Colors.green,
+                              elevation: 500,
+                              highlightElevation: 50,
+                              hoverElevation: 50,
+                              focusElevation: 30,
+                              shape: Border(top: BorderSide.none),
+                          ),
+
+
+
+
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: 30,),
+                    MaterialButton
+                      (
+
+
+                      onPressed: ()
+                      {
+
+
+                          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => login1()));
+
+
+
+                      }, child: Text("Already have an acount"),
+                      color: Colors.amberAccent,
+                      splashColor: Colors.blue,
+                      highlightColor: Colors.white,
+                      textColor: Colors.black,
+                      hoverColor: Colors.green,
+                      elevation: 500,
+                      highlightElevation: 50,
+                      hoverElevation: 50,
+                      focusElevation: 30,
+                      shape: Border(top: BorderSide.none),
+                    ),
+              
+              
+              
+              
+                  ],
+                ),
+            ),
+          ),
+      );
+  }
+}
